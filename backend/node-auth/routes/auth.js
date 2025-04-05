@@ -1,0 +1,48 @@
+const express = require('express');
+const router = express.Router();
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
+const User = require('../../models/User');
+
+// Register
+router.post('/register', async (req, res) => {
+  const { name, email, password, role } = req.body;
+  try {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const user = await User.create({ name, email, password: hashedPassword, role });
+    res.json({ message: 'User created', user: { email: user.email, id: user._id } });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
+// Login
+router.post('/login', async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const user = await User.findOne({ email });
+    if (!user) throw new Error('User not found');
+
+    const match = await bcrypt.compare(password, user.password);
+    if (!match) throw new Error('Incorrect password');
+
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+    res.json({ token });
+  } catch (err) {
+    res.status(401).json({ error: err.message });
+  }
+});
+
+// Profile
+router.get('/profile', async (req, res) => {
+  const token = req.headers.authorization?.split(' ')[1];
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const user = await User.findById(decoded.id).select('-password');
+    res.json(user);
+  } catch {
+    res.status(401).json({ error: 'Invalid token' });
+  }
+});
+
+module.exports = router;
