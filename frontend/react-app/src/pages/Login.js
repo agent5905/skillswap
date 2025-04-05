@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { login } from '../services/api';
+import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
+  const navigate = useNavigate();
   const [form, setForm] = useState({ email: '', password: '' });
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
@@ -11,8 +13,8 @@ export default function Login() {
     try {
       const res = await login(form);
       localStorage.setItem('token', res.data.token);
-      alert('Logged in successfully!');
-      // Redirect to dashboard or profile
+      // Redirect to dashboard
+      navigate('/dashboard');
     } catch (err) {
       alert(err.response?.data?.error || 'Login failed.');
     }
