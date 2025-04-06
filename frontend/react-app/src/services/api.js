@@ -12,3 +12,9 @@ export const getProfile = (token) =>
       Authorization: `Bearer ${token}`,
     },
   });
+  export const updateProfile = (token, updates) =>
+    API.patch('/auth/profile', updates, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });

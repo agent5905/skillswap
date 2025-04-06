@@ -15,7 +15,7 @@ router.post('/register', async (req, res) => {
     if (err.code === 11000) {
       return res.status(400).json({ error: 'Email already in use' });
     }
-    
+
     res.status(400).json({ error: err.message });
   }
 });
@@ -48,5 +48,18 @@ router.get('/profile', async (req, res) => {
     res.status(401).json({ error: 'Invalid token' });
   }
 });
+
+router.patch('/profile', async (req, res) => {
+  const token = req.headers.authorization?.split(' ')[1];
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const updates = req.body;
+    const user = await User.findByIdAndUpdate(decoded.id, updates, { new: true }).select('-password');
+    res.json(user);
+  } catch {
+    res.status(401).json({ error: 'Unauthorized' });
+  }
+});
+
 
 module.exports = router;
