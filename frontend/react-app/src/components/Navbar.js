@@ -23,6 +23,7 @@ export default function Navbar() {
             </>
           ) : (
             <>
+              <li className="nav-item"><Link className="nav-link" to="/book">Book a Session</Link></li>
               <li className="nav-item"><Link className="nav-link" to="/dashboard">Dashboard</Link></li>
               <li className="nav-item"><Link className="nav-link" to="/profile">Profile</Link></li>
               <li className="nav-item"><button className="btn btn-sm btn-outline-light ms-2" onClick={handleLogout}>Logout</button></li>
