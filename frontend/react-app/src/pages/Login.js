@@ -21,10 +21,10 @@ export default function Login() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input name="email" placeholder="Email" onChange={handleChange} />
-      <input name="password" placeholder="Password" type="password" onChange={handleChange} />
-      <button type="submit">Login</button>
+    <form className="container" style={{ maxWidth: 400 }} onSubmit={handleSubmit}>
+      <input className="form-control mb-2" name="email" placeholder="Email" onChange={handleChange} />
+      <input className="form-control mb-2" name="password" placeholder="Password" type="password" onChange={handleChange} />
+      <button className="btn btn-primary w-100" type="submit">Login</button>
     </form>
   );
 }

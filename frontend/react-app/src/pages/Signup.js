@@ -17,15 +17,16 @@ export default function Signup() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input name="name" placeholder="Name" onChange={handleChange} />
-      <input name="email" placeholder="Email" onChange={handleChange} />
-      <input name="password" placeholder="Password" type="password" onChange={handleChange} />
-      <select name="role" onChange={handleChange}>
+    <form className="container" style={{ maxWidth: 400 }} onSubmit={handleSubmit}>
+      <h2 className="mb-3">Sign Up</h2>
+      <input className="form-control mb-2" name="name" placeholder="Name" onChange={handleChange} />
+      <input className="form-control mb-2" name="email" placeholder="Email" onChange={handleChange} />
+      <input className="form-control mb-2" name="password" placeholder="Password" type="password" onChange={handleChange} />
+      <select className="form-select mb-3" name="role" onChange={handleChange}>
         <option value="mentee">Mentee</option>
         <option value="mentor">Mentor</option>
       </select>
-      <button type="submit">Register</button>
+      <button className="btn btn-primary w-100" type="submit">Register</button>
     </form>
   );
 }

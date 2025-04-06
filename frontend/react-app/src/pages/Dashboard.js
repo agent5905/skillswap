@@ -4,7 +4,7 @@ import { AuthContext } from '../contexts/AuthContext';
 export default function Dashboard() {
   const { user, logout } = useContext(AuthContext);
 
-  if (!user) return <p>Loading...</p>;
+  if (!user) return <div className="text-center mt-5"><div className="spinner-border text-primary" role="status"></div></div>;
 
   return (
     <div>
