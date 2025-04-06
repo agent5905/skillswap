@@ -4,6 +4,7 @@ import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
 import Profile from './pages/Profile';
 import BookSession from './pages/BookSession';
+import MySessions from './pages/MySessions';
 
 import Navbar from './components/Navbar';
 
@@ -18,6 +19,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/book" element={<BookSession />} />
+        <Route path="/sessions" element={<MySessions />} />
       </Routes>
     </Router>
   );

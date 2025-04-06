@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { bookSession } from '../services/api';
 
 const mockMentors = [
   { id: '1', name: 'Alice Dev' },
@@ -18,10 +19,17 @@ export default function BookSession() {
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     alert('Booking submitted:\n' + JSON.stringify(form, null, 2));
-    // Call backend here (we'll do that in Day 9)
+    try {
+        const token = localStorage.getItem('token');
+        await bookSession(token, form);
+        alert('Session booked!');
+        setForm({ mentorId: '', date: '', time: '', topic: '' });
+      } catch (err) {
+        alert(err.response?.data?.detail || 'Booking failed.');
+      }
   };
 
   return (

@@ -4,6 +4,10 @@ const API = axios.create({
   baseURL: 'http://localhost:4000/api',
 });
 
+const BOOKING_API = axios.create({
+  baseURL: 'http://localhost:8000', // FastAPI runs here
+});
+
 export const register = (data) => API.post('/auth/register', data);
 export const login = (data) => API.post('/auth/login', data);
 export const getProfile = (token) =>
@@ -18,3 +22,16 @@ export const getProfile = (token) =>
         Authorization: `Bearer ${token}`,
       },
     });
+
+    
+//FastAPI backend    
+export const bookSession = (token, data) =>
+  BOOKING_API.post('/bookings', data, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+export const getMyBookings = (token) =>
+  BOOKING_API.get('/bookings/me', {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+    
