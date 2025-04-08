@@ -10,3 +10,4 @@ class BookingCreate(BaseModel):
 class Booking(BookingCreate):
     id: str
     userId: str
+    status: str = "pending"  # default
