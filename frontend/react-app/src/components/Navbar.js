@@ -23,6 +23,9 @@ export default function Navbar() {
             </>
           ) : (
             <>
+              {user?.role === 'admin' && (
+                <li className="nav-item"><Link className="nav-link" to="/admin">Admin</Link></li>
+              )}
               <li className="nav-item"><Link className="nav-link" to="/dashboard">Dashboard</Link></li>
               <li className="nav-item"><Link className="nav-link" to="/book">Book a Session</Link></li>
               <li className="nav-item"><Link className="nav-link" to="/sessions">My Sessions</Link></li>

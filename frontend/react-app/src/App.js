@@ -5,6 +5,7 @@ import Dashboard from './pages/Dashboard';
 import Profile from './pages/Profile';
 import BookSession from './pages/BookSession';
 import MySessions from './pages/MySessions';
+import AdminDashboard from './pages/AdminDashboard';
 
 import Navbar from './components/Navbar';
 
@@ -20,6 +21,7 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/book" element={<BookSession />} />
         <Route path="/sessions" element={<MySessions />} />
+        <Route path="/admin" element={<AdminDashboard />} />
       </Routes>
     </Router>
   );

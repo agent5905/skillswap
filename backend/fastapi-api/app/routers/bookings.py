@@ -1,13 +1,11 @@
 from fastapi import APIRouter, Depends, Request
 from app.models import BookingCreate, Booking
 from app.utils import get_current_user
-import uuid
 from app.db import bookings_collection
 from bson.objectid import ObjectId
 from app.db import users_collection
 
 router = APIRouter()
-bookings = []  #In-memory for now
 
 @router.post("/bookings")
 def create_booking(booking: BookingCreate, request: Request, user_id: str = Depends(get_current_user)):
