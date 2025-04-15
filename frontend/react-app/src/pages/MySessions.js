@@ -26,9 +26,10 @@ export default function MySessions() {
 
   const renderSession = (b) => (
     <li className="list-group-item" key={b.id}>
+      <strong>Time:</strong> {b.mentorName}<br />
       <strong>Date:</strong> {format(parseISO(b.date), 'MMM dd, yyyy')}<br />
       <strong>Time:</strong> {b.time}<br />
-      <strong>Topic:</strong> {b.topic}
+      <strong>Topic:</strong> {b.topic}<br />
       <strong>Status:</strong> {b.status}<br />
     </li>
   );

@@ -1,0 +1,47 @@
+version: "3.8"
+
+services:
+  backend:
+    build:
+      context: ./backend/fastapi-api
+    container_name: fastapi_backend
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    depends_on:
+      - mongo
+
+  nodeauth:
+    build:
+      context: ./backend/node-auth
+    container_name: node_auth_backend
+    ports:
+      - "5000:5000"
+    env_file:
+      - .env
+    depends_on:
+      - mongo
+
+  frontend:
+    build:
+      context: ./frontend/react-app
+    container_name: react_frontend
+    ports:
+      - "3000:80"
+    env_file:
+      - ./frontend/react-app/.env.docker
+    depends_on:
+      - nodeauth
+      - backend
+
+  mongo:
+    image: mongo:6.0
+    container_name: mongo_db
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:

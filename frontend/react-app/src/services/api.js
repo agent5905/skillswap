@@ -1,56 +1,65 @@
 import axios from 'axios';
 
-const API = axios.create({
-  baseURL: 'http://localhost:4000/api',
+const NODEAPI = axios.create({
+  baseURL: process.env.REACT_APP_API_URL_NODE + '/api/auth', 
 });
 
-const BOOKING_API = axios.create({
-  baseURL: 'http://localhost:8000', // FastAPI runs here
+const FASTAPI = axios.create({
+  baseURL: process.env.REACT_APP_API_URL_FASTAPI, // FastAPI runs here
 });
 
-export const register = (data) => API.post('/auth/register', data);
-export const login = (data) => API.post('/auth/login', data);
+//Node.js backend
+export const register = (data) => NODEAPI.post('/register', data);
+
+export const login = (data) => NODEAPI.post('/login', data);
+
 export const getProfile = (token) =>
-  API.get('/auth/profile', {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-});
-export const updateProfile = (token, updates) =>
-  API.patch('/auth/profile', updates, {
+  NODEAPI.get('/profile', {
     headers: {
       Authorization: `Bearer ${token}`,
     },
 });
 
-//FastAPI backend    
+export const updateProfile = (token, updates) =>
+  NODEAPI.patch('/profile', updates, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+});
+
+//FastAPI backend
+export const getAllMentors = (token) =>
+  FASTAPI.get('/mentors', {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
 export const bookSession = (token, data) =>
-  BOOKING_API.post('/bookings', data, {
+  FASTAPI.post('/bookings', data, {
     headers: { Authorization: `Bearer ${token}` },
 });
 
 export const getMyBookings = (token) =>
-  BOOKING_API.get('/bookings/me', {
+  FASTAPI.get('/bookings/me', {
     headers: { Authorization: `Bearer ${token}` },
 });
 
 export const getAllUsers = (token) =>
-  BOOKING_API.get('/admin/users', {
+  FASTAPI.get('/admin/users', {
     headers: { Authorization: `Bearer ${token}` },
 });
   
 export const getAllBookings = (token) =>
-  BOOKING_API.get('/admin/bookings', {
+  FASTAPI.get('/admin/bookings', {
     headers: { Authorization: `Bearer ${token}` },
 });
 
 export const updateUserRole = (token, userId, newRole) =>
-  BOOKING_API.put(`/admin/users/${userId}/role?new_role=${newRole}`, null, {
+  FASTAPI.put(`/admin/users/${userId}/role?new_role=${newRole}`, null, {
     headers: { Authorization: `Bearer ${token}` },
 });
 
 export const deleteBooking = (token, bookingId) =>
-  BOOKING_API.delete(`/admin/bookings/${bookingId}`, {
+  FASTAPI.delete(`/admin/bookings/${bookingId}`, {
     headers: { Authorization: `Bearer ${token}` },
 });
     

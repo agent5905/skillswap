@@ -1,10 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { bookSession } from '../services/api';
-
-const mockMentors = [
-  { id: '1', name: 'Alice Dev' },
-  { id: '2', name: 'Bob Builder' }
-];
+import { getAllMentors } from '../services/api';
 
 const timeSlots = ['09:00', '10:00', '11:00', '13:00', '14:00', '15:00'];
 
@@ -16,16 +12,31 @@ export default function BookSession() {
     topic: ''
   });
 
+  const [mentors, setMentors] = useState([]);
+
+  useEffect(() => {
+    const fetchMentors = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const res = await getAllMentors(token);
+        setMentors(res.data);
+      } catch (err) {
+        console.error('Failed to fetch mentors:', err);
+      }
+    };
+    fetchMentors();
+  }, []);
+
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    alert('Booking submitted:\n' + JSON.stringify(form, null, 2));
+    //alert('Booking submitted:\n' + JSON.stringify(form, null, 2));
     try {
         const token = localStorage.getItem('token');
         await bookSession(token, form);
-        alert('Session booked!');
+        //alert('Session booked!');
         setForm({ mentorId: '', date: '', time: '', topic: '' });
       } catch (err) {
         alert(err.response?.data?.detail || 'Booking failed.');
@@ -39,7 +50,7 @@ export default function BookSession() {
       <label className="form-label">Select Mentor</label>
       <select className="form-select mb-3" name="mentorId" onChange={handleChange} required>
         <option value="">-- Choose a mentor --</option>
-        {mockMentors.map((m) => (
+        {mentors.map((m) => (
           <option key={m.id} value={m.id}>{m.name}</option>
         ))}
       </select>
